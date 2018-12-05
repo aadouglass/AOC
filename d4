@@ -1,0 +1,24 @@
+import re,datetime
+#   load list of integers to sum in for loop
+timestamps = open("C:\\Users\\AndrewDesktop\\Advent\\d4.txt").read()
+#   loop through elements of freq_change array and sum together then store each iteration as frequency history to find the first repeat.
+clean_time = re.sub('\[', '', timestamps)
+clean_time = re.sub(r'\] ', ',',clean_time)
+clean_time = re.sub(r'Guard \#', '',clean_time)
+clean_time = re.sub(r' begins shift', '',clean_time)
+clean_time = re.sub(r'\n', ',',clean_time).split(',')
+
+
+#print(clean_time)
+
+time = []
+action = []
+for x in range(len(clean_time)):
+    if x % 2 == 0:
+        time.append(clean_time[x])
+    else:
+        action.append(clean_time[x])
+
+twod = [ [time[x], action[x]] for x in range(len(time)) ]
+twod = sorted(twod, key=lambda x: x[0])
+print(twod)
