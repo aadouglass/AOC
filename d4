@@ -1,6 +1,7 @@
-import re,datetime
+from datetime import datetime
+import re
 #   load list of integers to sum in for loop
-timestamps = open("C:\\Users\\AndrewDesktop\\Advent\\d4.txt").read()
+timestamps = open("C:\\Users\\andrewd\\Source\\Repos\\adoc\\d4.txt").read()
 #   loop through elements of freq_change array and sum together then store each iteration as frequency history to find the first repeat.
 clean_time = re.sub('\[', '', timestamps)
 clean_time = re.sub(r'\] ', ',',clean_time)
@@ -15,10 +16,24 @@ time = []
 action = []
 for x in range(len(clean_time)):
     if x % 2 == 0:
-        time.append(clean_time[x])
+        time.append(datetime.strptime(clean_time[x], '%Y-%m-%d %H:%M'))
     else:
         action.append(clean_time[x])
 
-twod = [ [time[x], action[x]] for x in range(len(time)) ]
+twod = [ [time[x], action[x]] for x in range(len(action)) ]
 twod = sorted(twod, key=lambda x: x[0])
-print(twod)
+
+guard = []
+sleep = []
+guard_num = ''
+for x in range(len(twod)):
+
+    try:
+        int(twod[x][1])
+        guard_num = twod[x][1]
+
+    except ValueError:
+        if twod[x][1] == 'wakes up':
+            sleep.append([[guard_num], [twod[x][0] - twod[x-1][0]]])   
+
+print(sleep)
